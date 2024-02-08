@@ -1,5 +1,8 @@
 import { Router } from "express";
 
+import { authorize } from "../middleware/authentication.middleware";
+import { getBooks } from "../controller/book.controller";
+
 const mainRouter = Router();
 
 mainRouter.get('/health', async (req, res) => {
@@ -8,5 +11,7 @@ mainRouter.get('/health', async (req, res) => {
     message: 'I am Ok! I am fine! tinchana...'
   })
 });
+
+mainRouter.post('/books', authorize, getBooks);
 
 export default mainRouter;

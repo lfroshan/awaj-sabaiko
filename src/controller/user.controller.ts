@@ -8,6 +8,7 @@ import GenericError from "../Error/GenericError";
 import { UserRegistrationPayload } from "../zod.domain/userRegister.domain";
 import { UserLoginPayload } from '../zod.domain/userLogin.domain';
 import Forbidden from '../Error/Forbidden';
+import GLOBAL_CONFIG from '../globalConfig';
 
 export async function registerUser(req: Request, res: Response): Promise<any>{
   try {
@@ -25,10 +26,12 @@ export async function registerUser(req: Request, res: Response): Promise<any>{
       password: hashedPassword
     });
 
-    await user.save();
+    const savedUser = await user.save();
 
     return res.status(201).json({
-      message: 'Created'
+      token: Jwt.sign({userId: savedUser._id}, GLOBAL_CONFIG.SECRET_KEY, {
+        expiresIn: '1h'
+      })
     })
   } catch (err) {
     if (err instanceof BadRequest) {
@@ -57,7 +60,7 @@ export async function loginUser(req: Request, res: Response): Promise<any>{
   
   if (!passwordMatch) throw new Forbidden();
 
-  const token = Jwt.sign({userId: user._id}, user.password, {
+  const token = Jwt.sign({userId: user._id}, GLOBAL_CONFIG.SECRET_KEY, {
     expiresIn: '1h'
   });
 
