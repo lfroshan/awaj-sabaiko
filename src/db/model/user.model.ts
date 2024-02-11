@@ -44,12 +44,18 @@ const UserSchema = new mongoose.Schema({
     }
   },
 
+  editor: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
   created_at: {
     type: Date,
     Default: Date.now
   },
 
-  update_at: {
+  updated_at: {
     type: Date,
     requried: true,
     Default: Date.now
@@ -57,7 +63,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre('save', function (next) {
-  this.update_at = new Date();
+  this.updated_at = new Date();
   
   next();
 });

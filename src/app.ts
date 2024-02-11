@@ -1,6 +1,5 @@
 import express from 'express'; 
-
-import mainRouter from './route/main.route';
+import blogRouter from './route/blog.route';
 import userRouter from './route/user.route';
 
 import dotenv from 'dotenv';
@@ -10,8 +9,8 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api/v1', mainRouter);
-
 app.use('/api/v1/user', userRouter);
+
+app.use('/api/v1/blog', blogRouter);
 
 export default app;
