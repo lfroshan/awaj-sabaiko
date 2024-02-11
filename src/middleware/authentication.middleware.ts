@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import GLOBAL_CONFIG from '../globalConfig';
 import Forbidden from '../Error/Forbidden';
+import GLOBAL_CONFIG from '../globalConfig';
+import { Request, Response, NextFunction } from 'express';
 
 export async function authorize(req: Request, res: Response, next: NextFunction) {
   try {

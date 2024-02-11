@@ -1,18 +1,7 @@
 import mongoose from "mongoose";
+import ProfileModel from "./profile.model";
 
 const UserSchema = new mongoose.Schema({
-  firstname: {
-    type: String,
-    required: true,
-    trim: true
-  },
-
-  lastname: {
-    type: String,
-    required: true,
-    trim: true
-  },
-
   username: {
     type: String,
     required: true,
@@ -67,6 +56,14 @@ UserSchema.pre('save', function (next) {
   
   next();
 });
+
+UserSchema.post('save', async function (user) {
+  const profile = new ProfileModel({
+    user: user._id
+  });
+
+  await profile.save();
+})
 
 const UserModel = mongoose.model('User', UserSchema);
 

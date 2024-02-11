@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-export const UserRegisterBodySchema = z.object({
-  firstname: z.string(), 
-  lastname: z.string(), 
+export const UserRegisterBodySchema = z.object({ 
   username: z.string(),
   email: z.string(), 
   password: z.string(), 
